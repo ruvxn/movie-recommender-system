@@ -1,24 +1,20 @@
-
-from __future__ import print_function, division
-from builtins import range, input
-from sklearn.model_selection import train_test_split
-
 import pickle
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 from sklearn.utils import shuffle
 
-# load in the data
 
 df = pd.read_csv('datasets/rating_preprocessed_shrink.csv')
 
 N = df.userId.max() + 1 # number of users
 M = df.movie_idx.max() + 1 # number of movies
 
-#split the data into train and test
-cutoff = 0.8
-df_train, df_test = train_test_split(df, test_size=1-cutoff, random_state=42)
+# split into train and test
+df = shuffle(df)
+cutoff = int(0.8*len(df))
+df_train = df.iloc[:cutoff]
+df_test = df.iloc[cutoff:]
 
 # a dictionary to tell us which users have rated which movies
 user2movie = {}

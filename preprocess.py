@@ -33,7 +33,7 @@ for movie_id in unique_movie_ids:
     count += 1
 
 #add the new movie ids to the dataframe
-df['movie_idx'] = df['movieId'].map(new_movie_id)
+df['movie_idx'] = df.apply(lambda row: new_movie_id[row.movieId], axis=1)
 
 #save the new dataframe to a csv file
 df.to_csv('datasets/rating_preprocessed.csv')

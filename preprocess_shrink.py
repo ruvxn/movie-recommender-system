@@ -23,7 +23,7 @@ m= 2000
 user_ids= [u for u,c in user_ids_count.most_common(n)]
 movie_ids= [m for m,c in movie_ids_count.most_common(m)]
 
-df_small = df[df['userId'].isin(user_ids) & df['movieId'].isin(movie_ids).copy()] 
+df_small = df[df.userId.isin(user_ids) & df.movie_idx.isin(movie_ids)].copy()
 
 new_user_id = {}
 i = 0
@@ -41,10 +41,11 @@ print ("j:", j)
 
 print("Setting new ids")
 
-df_small['userId'] = df_small['userId'].astype(int).map(new_user_id)
+df_small.loc[:, 'userId'] = df_small.apply(lambda row: new_user_id[row.userId], axis=1)
+df_small.loc[:, 'movie_idx'] = df_small.apply(lambda row: new_movie_id[row.movie_idx], axis=1)
 
-df_small['movie_idx'] = df_small['movie_idx'].astype(int).map(new_movie_id)
-
+print("max user id:", df_small.userId.max())
+print("max movie id:", df_small.movie_idx.max())
 
 print("new dataframe size :", len(df_small))
 
